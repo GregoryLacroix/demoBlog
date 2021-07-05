@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+{# extends permet d'hériter de tout les blocks définit dans le gabari de base 'base.html.twig' #}
+
+{# Le block 'title' fait référence au block 'title' déclaré dans le fichier 'base.html.twig', le rendu apparait dans l'onglet du navigateur #}
+
+{% block title %}
+    Blog | Home
+{% endblock %}
+
+{# Le block 'body' fait référence au block 'body' déclaré dans le fichier  'base.html.twig' #}
+{# Le contenu du bloc 'body' est envoyé dans le bloc 'body' de base.html.twig et l'ensemble est envoyé en réponse sur le navigateur (base + template) #}
+{% block body %}
+    
+    <h1>Bienvenue sur le blog Symfony</h1>
+
+    {# 
+        TWIG est un langage de rendu. Avantage
+        - simplicité du langage : facilités d'écriture et d'affichage, apporte beaucoup de fonctionnalités
+        - Absence de PHP au sein de nos affichages, permet d'abstraires les affichages des balises PHP
+        - Plus simple pour un intégrateur
+
+        {{ }} --> double accolades, c'est ce que l'on appel l'interpolation (ex: affichage variable, execution fonction twig)
+
+        {% %} --> commande TWIG (ex : boucle, condition etc...)
+    #}
+
+    {# title : variable TWIG qui provient du controller 'BlogController' de la méthode 'home()' définit dans les paramètres de la méthode de rendu 'render()' #}
+    <h2>{{ title }}</h2>
+
+    {# age : variable TWIG qui provient du controller 'BlogController' de la méthode 'home()' définit dans les paramètres de la méthode de rendu 'render()' #}
+    {#     25      #}
+    {% if age > 18 %}
+        <p>Tu es majeur !!</p>
+    {% else %}
+        <p>Tu es mineur !!</p>
+    {% endif %}
+
+{% endblock %}
+ 
