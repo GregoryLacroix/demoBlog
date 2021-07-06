@@ -4,66 +4,48 @@
 
 {% block body %}
 
+    {# articlesBDD : variable TWIG contenant tout les articles selectionnés en BDD et transmit par le controlleur 'BlogController' via la méthode render(), cela nous permet de traiter les données de la BDD avec le langage TWIG afin d'avoir un affichage sur le navigateur #}
+    {# {{ dump(articlesBDD) }} #}
+
     <div class="row mb-2">
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary">World</strong>
-                    <h3 class="mb-0">Featured post</h3>
-                    <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="stretched-link">Continue reading</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary">World</strong>
-                    <h3 class="mb-0">Featured post</h3>
-                    <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="stretched-link">Continue reading</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                </div>
-            </div>
-        </div>
+        {# boucle FOR Twig : #}
+        {# arguments : #}
+        {# 1. oneArticle : variable de reception que nous définissons dans la boucle, qui receptionne les données d'1 article par tour de boucle FOR #}
+        {# 2. articlesBDD : variable Twig contenant l'ensemble des données selectionné en BDD #}
+        {% for oneArticle in articlesBDD %}
 
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary">World</strong>
-                    <h3 class="mb-0">Featured post</h3>
-                    <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="stretched-link">Continue reading</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                </div>
-            </div>
-        </div>
+            {# {{ dump(oneArticle) }} #}
+            
+            <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col-md-7 p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-primary">World</strong>
 
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary">World</strong>
-                    <h3 class="mb-0">Featured post</h3>
-                    <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="stretched-link">Continue reading</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                        {# on pioche dans un objet Twig avec le point '.' #}
+                        <h3 class="mb-0">{{ oneArticle.titre }}</h3>
+
+                        {# date() : filtre TWIG qui permet de formater une date / heure #}
+                        <div class="mb-1 text-muted">Posté le {{ oneArticle.date|date('d/m/Y') }} à {{ oneArticle.date|date('H:i:s') }}</div>
+
+                        {# slice() : fonction Twig permettant de retourner une partie de la chaine de caractères #}
+                        {# arguments: 1. La position de départ | 2. Le nombre de caractères souhaités #}
+                        <p class="card-text mb-auto">{{ oneArticle.contenu|slice(0,80)|raw }}[...]</p>
+
+                        {# On définit le lien permettant de rediriger l'internaute vers l'affichage du détail de l'article #}
+                        {# 'blog_show' correspond à la route permettant l'affichage du détail de l'article #}
+                        {# C'est une route paramétrée qui attend un ID d'un article dans l'URL #}
+                        {# en 2ème arguement de la fonction path(), nous fournissons l'id de l'article à transmettre dans l'URL ({'id': oneArticle.id}) #}
+                        <a href="{{ path('blog_show', {'id': oneArticle.id}) }}" class="stretched-link">Lire la suite</a>
+                    </div>
+                    <div class="col-md-5 d-none d-lg-block">
+                        <img src="{{ oneArticle.image }}" alt="{{ oneArticle.titre }}" class="col-md-12">
+                    </div>
                 </div>
             </div>
-        </div>
+
+        {% endfor %}
+
     </div>
 
 {% endblock %}

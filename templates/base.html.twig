@@ -41,7 +41,7 @@
                     {# path() : fonction TWIG permettant de générer une route, une adresse en fonction de son nom définit dans le controlleur, on lui transmet en argument le nom de la route (@Route("", name="blog")) #}
                     <a class="p-2 link-secondary" href="{{ path('home') }}"><i class="bi bi-house-door"></i></a>
                     <a class="p-2 link-secondary" href="{{ path('blog') }}">Blog</a>
-                    <a class="p-2 link-secondary" href="#">Technology</a>
+                    <a class="p-2 link-secondary" href="{{ path('blog_create') }}">Nouvel article</a>
                     <a class="p-2 link-secondary" href="#">Design</a>
                     <a class="p-2 link-secondary" href="#">Culture</a>
                     <a class="p-2 link-secondary" href="#">Business</a>
