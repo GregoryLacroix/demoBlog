@@ -105,3 +105,7 @@ h1, h2, h3, h4, h5, h6 {
 .conteneur-base{
     min-height: 50vh;
 }
+
+.bandeau-header{
+    background: #98B8D3;
+}
