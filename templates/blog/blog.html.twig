@@ -13,12 +13,12 @@
         {# arguments : #}
         {# 1. oneArticle : variable de reception que nous définissons dans la boucle, qui receptionne les données d'1 article par tour de boucle FOR #}
         {# 2. articlesBDD : variable Twig contenant l'ensemble des données selectionné en BDD #}
-        {% for oneArticle in articlesBDD %}
+        {% for oneArticle in articlesBDD %} 
 
             {# {{ dump(oneArticle) }} #}
             
             <div class="col-md-6">
-                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative shadow-lg">
                     <div class="col-md-7 p-4 d-flex flex-column position-static">
                         <strong class="d-inline-block mb-2 text-primary">World</strong>
 

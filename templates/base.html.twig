@@ -41,8 +41,8 @@
                     {# path() : fonction TWIG permettant de générer une route, une adresse en fonction de son nom définit dans le controlleur, on lui transmet en argument le nom de la route (@Route("", name="blog")) #}
                     <a class="p-2 link-secondary" href="{{ path('home') }}"><i class="bi bi-house-door"></i></a>
                     <a class="p-2 link-secondary" href="{{ path('blog') }}">Blog</a>
-                    <a class="p-2 link-secondary" href="{{ path('blog_create') }}">Nouvel article</a>
-                    <a class="p-2 link-secondary" href="#">Design</a>
+                    <a class="p-2 link-secondary" href="{{ path('blog_create_old') }}">Nouvel article old</a>
+                    <a class="p-2 link-secondary" href="{{ path('blog_create') }}">Nouvel article new</a>
                     <a class="p-2 link-secondary" href="#">Culture</a>
                     <a class="p-2 link-secondary" href="#">Business</a>
                     <a class="p-2 link-secondary" href="#">Politics</a>
@@ -54,7 +54,7 @@
                 </nav>
             </div>
             
-            <div class="p-4 p-md-5 mb-4 text-white rounded bandeau-header">
+            <div class="p-4 p-md-5 mb-4 text-white rounded bandeau-header shadow-lg">
                 <div class="col-md-6 px-0">
                     <h1 class="display-4 fst-italic">Blog Musical Symfony</h1>
                     <p class="lead my-3">Musique maestro ! Elle accompagne notre vie, souligne nos souvenirs, s'invite dans notre intimité...</p>

@@ -6,12 +6,12 @@
 
 {% block body %}
 
-    {{ dump(articleBDD) }}
+    {# {{ dump(articleBDD) }} #}
     
     {# <h1 class="display-4 fst-italic text-center my-4">Détails de l'article</h1> #}
 
     <div class="col-md-12">
-        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative shadow-lg">
             <div class="col-md-7 p-4 d-flex flex-column position-static">
                 <strong class="d-inline-block mb-2 text-primary">World</strong>
 
@@ -23,6 +23,7 @@
 
                 {# la fonction path() attend en argument le NOM de la route définit dans le controlleur dans l'annotation @Route("", name="NOM_ROUTE") #}
                 <a href="{{ path('blog') }}">Retour aux articles</a>
+                <a href="{{ path('blog_edit', {'id': articleBDD.id}) }}">Modification</a>
             </div>
             <div class="col-md-5 d-none d-lg-block">
                 <img src="{{ articleBDD.image }}" alt="{{ articleBDD.titre }}" class="col-md-12">
