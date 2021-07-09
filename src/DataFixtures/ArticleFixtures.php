@@ -3,6 +3,9 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\Category;
+use App\Entity\Comment;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -10,26 +13,62 @@ class ArticleFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        // La boucle FOR tourne 10 fois car nous voulons créer 10 articles
-        for($i = 1; $i <= 11; $i++)
+        // On importe la librairie Faker pour les fixtures, cela nous permet de créer des fausses articles, catégories, commentaires plus évolués avec par exemple des faux noms, faux prénoms, date aléatoires etc... 
+        $faker = \Faker\Factory::create('fr_FR');
+
+        // Création de 3 catgéories
+        for($cat = 1; $cat <= 3; $cat++)
         {
-            // Pour pouvoir insérer des données dans la table SQL article, nous devons instancier son entité correspondante (Article), Symfony se sert l'objet entité $article pour injecter les valeurs dans les requetes SQL
-            $article = new Article;
+            $category = new Category;
 
-            // On fait appel aux setteurs de l'objet entité afin de renseigner les titres, les contenu, les images et les dates des faux articles stockés en BDD
-            $article->setTitre("Titre de l'article $i")
-                    ->setContenu("<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sagittis neque diam, eu lacinia metus ultricies et. Pellentesque lobortis velit id commodo vestibulum. Nulla ut rutrum dui. Nulla quis malesuada neque. Praesent et nulla a eros finibus hendrerit et non erat. Proin varius mauris et lorem pharetra elementum. Pellentesque faucibus enim nec tempor lobortis. Duis laoreet elementum mauris, nec porta ex scelerisque ullamcorper. Proin sodales a urna nec condimentum. Nulla purus augue, gravida et lacus convallis, scelerisque tincidunt justo. Donec dictum mauris urna, id tempus dui pharetra at. Nunc eget vehicula quam.</p>")
-                    ->setImage("https://picsum.photos/600/600")
-                    ->setDate(new \DateTime());
+            $category->setTitre($faker->word)
+                     ->setDescription($faker->paragraph());
 
-            // Un manager (ObjectManager) en Symfony est un classe permettant, entre autre, de manipuler les lignes de la BDD (INSERT, UPDATE, DELETE)
+            $manager->persist($category);
 
-            // persist() : méthode issue de la classe ObjectManager permettant de préaprer et de garder en méméoire les requetes d'insertion
-            // $data = $bdd->prepare("INSERT INTO article VALUES ('getTitre()', 'getContenu()' etc...)")
-            $manager->persist($article);
+            // Création de 4 à 10 articles par catégorie
+            for($art = 1; $art <= mt_rand(4,10); $art++)
+            {
+                // $faker->paragraphs(5) retourne 1 array, setContenu attend une chaine de caractères en arguments
+                // join (alias implode) permet d'extraire chaque paragraphe faker afin de les rassemebler en une chaine de caractères avec un séparateur (<p></p>)
+                $contenu = '<p>' . join($faker->paragraphs(5), '</p><p>') . '</p>';
+
+                $article = new Article;
+
+                $article->setTitre($faker->sentence())
+                        ->setContenu($contenu)
+                        ->setImage($faker->imageUrl(600,600))
+                        ->setDate($faker->dateTimeBetween('-6 months'))
+                        ->setCategory($category);
+
+                $manager->persist($article);
+
+                // Création de 4 à 10 commentaire pour chaque article 
+                for($cmt = 1; $cmt <= mt_rand(4,10); $cmt++)
+                {
+                    // TRAITEMENT DES DATES
+                    $now = new DateTime;
+                    $interval = $now->diff($article->getDate()); // retourne un timestamp (temps en secondes) entre la date de création des articles et aujourd'hui
+                    
+                    $days = $interval->days; // retourne le nombre de jour entre la date de création des articles et aujourd'hui
+
+                    $minimum = "-$days days"; /* ex : -100 days | le but est d'avoir des dates de commentaires entre la date de création des articles et aujourd'hui */  
+
+                    // TRAITEMENT DES PARAGRAPHES DE COMMENTAIRES
+                    $contenu = '<p>' . join($faker->paragraphs(2), '</p><p>') . '</p>';
+
+                    $comment = new Comment;
+
+                    $comment->setAuteur($faker->name)
+                            ->setCommentaire($contenu)
+                            ->setDate($faker->dateTimeBetween($minimum)) // dateTimeBetween(-10 days)
+                            ->setArticle($article);
+
+                    $manager->persist($comment);
+                }
+            }
         }
 
-        // flush() : méthode issue de la classe ObjectManager permettant véritablement d'executer les requetes d'insertions en BDD
-        $manager->flush(); // execute()
+        $manager->flush();
     }
 }
