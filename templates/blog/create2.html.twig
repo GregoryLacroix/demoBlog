@@ -22,6 +22,8 @@
         {# fonction Twig permettant de fiare appel aux différents champ du formulaire #}
         {{ form_row(formArticle.titre, {'label': "Titre de l'article"}) }}
 
+        {{ form_row(formArticle.category, {'label': "Catégorie de l'article"}) }}
+
         {{ form_row(formArticle.contenu) }}
 
         {{ form_row(formArticle.image) }}

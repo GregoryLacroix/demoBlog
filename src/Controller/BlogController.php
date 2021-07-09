@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Form\ArticleType;
+use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -145,7 +147,7 @@ class BlogController extends AbstractController
 
             // Pour manipuler les lignes de la BDD (INSERT, UPDATE, DELETE), nous avons besoin d'un mamager (EntityManagerInterface) 
             // persist() : méthode issue de l'interface EntityManagerInterface permettant de préparer et garder en mémmoire la requete d'insertion
-            // $data = $bdd->prepare("INSERT INTO article VALUES ('$article->getTitre()', '$article->getContenu()')")
+            // $data = $bdd->prepare("REPLACE INTO article VALUES ('$article->getTitre()', '$article->getContenu()')")
             $manager->persist($article);
 
             // flush() : méthode issue de l'interface EntityManagerInterface permettant veritablement d'executer le requete d'insertion en BDD
@@ -172,7 +174,7 @@ class BlogController extends AbstractController
      * 
      * @Route("/blog/{id}", name="blog_show")
      */
-    public function show(Article $article): Response
+    public function show(Article $article, Request $request): Response
     {
         // L'id transmit dans l'URL est envoyé directement en argument de la fonction show(), ce qui nous permet d'avoir accès à l'id de l'article a selectionner en BDD au sein de la méthode show()
         // dump($id); // 6
@@ -188,8 +190,18 @@ class BlogController extends AbstractController
         // $article = $repoArticle->find($id); // 6
         dump($article);
 
+        // TRAITEMENT COMMENTAIRE ARTICLE (formulaire + insertion)
+        $comment = new Comment;
+
+        $formComment = $this->createForm(CommentType::class, $comment); 
+
+        $formComment->handleRequest($request);
+
+        dump($comment);
+
         return $this->render('blog/show.html.twig', [
-            'articleBDD' => $article // on transmet au template les données de l'article selectionné en BDD afin de les traiter avec le langage Twig dans le template
+            'articleBDD' => $article, // on transmet au template les données de l'article selectionné en BDD afin de les traiter avec le langage Twig dans le template
+            'formComment' => $formComment->createView()
         ]);
     }
 }
