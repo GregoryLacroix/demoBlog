@@ -31,6 +31,18 @@
             </div>
         </div>
 
+        {# AFFICHAGE MESSAGE VALIDATION UTILISATEUR #}
+        {# app : objet Twig qui contient toute les données de la session en cours, du fichier de session #}
+        {# flashes() : méthode permettant d'accéder en session au message flash utilisateur déclarés dans le controlleur, il faut lui fournir en argument l'identifiant (success) #}
+        {# message: varaible de recpetion qui nous définissons, qui receptionne un message utilisateur par tour de boucle #}
+        {% for message in app.flashes('notice') %}
+
+            <div class="col-md-4 mx-auto alert alert-success text-center p-2">
+            {{ message }}
+            </div>
+            
+        {% endfor %}
+
         {# AFFICHAGE DU FORMULAIRE D'AJOUT DE COMMENTAIRE #}
         <h4 class="mt-5 mb-2">Donner votre avis...</h4>
 
@@ -48,26 +60,34 @@
         <h4 class="mt-5 mb-2">Vos réactions...</h4>
 
         <div class="row mb-5">
-        
-        {# articleBDD.comments : objet contenant tout les commentaires liès à l'article #}
-        {# Grace aux relations entre les tables (bi-directionnelle), en selectionnant dans la table 'Article', nous avons accès automatiquement à toute les correspondances dans les autres tables #}
-        {% for oneComment in articleBDD.comments %}
-            
-            {# {{ dump(oneComment) }} #}
 
-            <div class="row shadow rounded mx-0 px-0 mb-2">
-            
-                <div class="col-md-4 py-2">
-                    <strong>{{ oneComment.auteur }}</strong>
-                    <small class="fst-italic">Posté le {{ oneComment.date|date('d/m/Y à H:i:s') }}</small>
+            {# Si l'article possède bien des commentaire, si l'objet articleBDD.comments n'est pas vide, alors on entre dans le condition IF et onaffiche les commentaires #}
+            {% if articleBDD.comments is not empty %}
+                
+                {# articleBDD.comments : objet contenant tout les commentaires liès à l'article #}
+                {# Grace aux relations entre les tables (bi-directionnelle), en selectionnant dans la table 'Article', nous avons accès automatiquement à toute les correspondances dans les autres tables #}
+                <div class="row shadow rounded mx-0 px-0 mb-2">
+                {% for oneComment in articleBDD.comments %}
+                    
+                    {# {{ dump(oneComment) }} #}
+
+                    <div class="col-md-4 py-2">
+                        <strong>{{ oneComment.auteur }}</strong>
+                        <small class="fst-italic">Posté le {{ oneComment.date|date('d/m/Y à H:i:s') }}</small>
+                    </div>
+                    <div class="col-md-8 py-2">
+                        {{ oneComment.commentaire|raw }}
+                    </div>
+
+                {% endfor %}
                 </div>
-                <div class="col-md-8 py-2">
-                    {{ oneComment.commentaire|raw }}
-                </div>
+            
+            {% else %}
+                
+                {# Sinon l'article n'est associé à aucun commentaire, on entre dans le ELSE et onaffiche un message à l'utilisateur #}
+                <p class="fst-italic text-center">Soyez le premier à donner votre avis.</p>
 
-            </div>
-
-        {% endfor %}
+            {% endif %}
 
         </div>
 
