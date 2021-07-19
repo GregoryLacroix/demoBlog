@@ -174,7 +174,7 @@ class BlogController extends AbstractController
      * 
      * @Route("/blog/{id}", name="blog_show")
      */
-    public function show(Article $article, Request $request): Response
+    public function show(Article $article, Request $request, EntityManagerInterface $manager): Response
     {
         // L'id transmit dans l'URL est envoyé directement en argument de la fonction show(), ce qui nous permet d'avoir accès à l'id de l'article a selectionner en BDD au sein de la méthode show()
         // dump($id); // 6
@@ -191,13 +191,46 @@ class BlogController extends AbstractController
         dump($article);
 
         // TRAITEMENT COMMENTAIRE ARTICLE (formulaire + insertion)
-        $comment = new Comment;
+        $comment = new Comment; 
 
         $formComment = $this->createForm(CommentType::class, $comment); 
 
-        $formComment->handleRequest($request);
+        $formComment->handleRequest($request); // $comment->setAuteur('$_POST[auteur]') | $comment->setCommentaire('$_POST[commentaire]')
 
-        dump($comment);
+        if($formComment->isSubmitted() && $formComment->isValid())
+        {
+            $comment->setDate(new \DateTime());
+
+            // On établit la realtion entre le commentaire et l'article (clé étrangère)
+            // setArticle() : méthode issue de l'entité Comment qui permet de rensigner l'article associé au commentaire
+            // Cette méthode attends en argument l'objet entité Article de la BDD et non la clé étrangère elle même
+            $comment->setArticle($article);
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            // addFlash() : méthode permettant de déclarer un message de validation stocké en session
+            // arguements :
+            // 1. Identifiant du message (success)
+            // 2. Le message utilisateur
+            $this->addFlash('notice', "Le commentaire a été posté avec succès !");
+
+            /*
+                session
+                array(
+                    success => [
+                        0 => "Le commentaire a été posté avec succès !"
+                    ]
+                )
+            */
+
+            dump($comment);
+
+            // Après l'insertion, on redirige l'internaute vers l'affichage de l'article afin de rebooter le formulaire
+            return $this->redirectToRoute('blog_show', [
+                'id' => $article->getId()
+            ]);
+        }
 
         return $this->render('blog/show.html.twig', [
             'articleBDD' => $article, // on transmet au template les données de l'article selectionné en BDD afin de les traiter avec le langage Twig dans le template
