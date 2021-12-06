@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{# ce block 'title' fait référence au block 'title' déclaré dans base.html.twig #}
+{% block title %}
+    Template Home
+{% endblock %}
+
+{# ce block body fait référence au block 'body' déclaré dans base.html.twig #}
+{% block body %}
+    
+    {# 
+    title est une variable twig qui ne sort pas de null part, elle provient du controller BlogController et plus précisement de la méthode render définit dans la méthode home()
+
+    Tous ce qui est traité dans les template vient forcement d'un controller
+
+    TWIG est un langage de rendu, un moteur de template : 
+    - simplicité du langage
+    - Abscence de PHP au sein de l'afficgaes 
+    - Plus simple pour un intégrateur 
+    - Plus rapide à l'execution
+
+    {{ }} --> interpolation
+    {% %} --> commande (cmd ex: if/else | for/endfor)
+    #}
+
+    <h1 class="text-center my-5">{{ title }}</h1>
+
+    {#    25   #}
+    {% if age > 18 %}
+        <p>Tu es majeur !</p>
+    {% else %}
+        <p>Tu es mineur !</p>
+    {% endif %}
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit at culpa laudantium sunt odit repudiandae qui deleniti cum ipsum, sint eius amet! Reiciendis praesentium aut, reprehenderit autem assumenda ratione soluta quam dolor tempore iusto pariatur dolore? Asperiores dicta quis nulla magni doloremque libero beatae nihil impedit hic, repellat repudiandae quae quasi atque culpa provident laudantium aut vitae ea fugiat quas, suscipit placeat voluptatem temporibus! Nemo eveniet placeat repudiandae maiores unde cupiditate nobis commodi, illo quod pariatur vitae ratione consequatur iure quis perspiciatis porro vel. Dolor dolorum tenetur repellat culpa ad, consequuntur accusantium possimus maiores repellendus harum ut iure, nemo autem.</p>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit at culpa laudantium sunt odit repudiandae qui deleniti cum ipsum, sint eius amet! Reiciendis praesentium aut, reprehenderit autem assumenda ratione soluta quam dolor tempore iusto pariatur dolore? Asperiores dicta quis nulla magni doloremque libero beatae nihil impedit hic, repellat repudiandae quae quasi atque culpa provident laudantium aut vitae ea fugiat quas, suscipit placeat voluptatem temporibus! Nemo eveniet placeat repudiandae maiores unde cupiditate nobis commodi, illo quod pariatur vitae ratione consequatur iure quis perspiciatis porro vel. Dolor dolorum tenetur repellat culpa ad, consequuntur accusantium possimus maiores repellendus harum ut iure, nemo autem.</p>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit at culpa laudantium sunt odit repudiandae qui deleniti cum ipsum, sint eius amet! Reiciendis praesentium aut, reprehenderit autem assumenda ratione soluta quam dolor tempore iusto pariatur dolore? Asperiores dicta quis nulla magni doloremque libero beatae nihil impedit hic, repellat repudiandae quae quasi atque culpa provident laudantium aut vitae ea fugiat quas, suscipit placeat voluptatem temporibus! Nemo eveniet placeat repudiandae maiores unde cupiditate nobis commodi, illo quod pariatur vitae ratione consequatur iure quis perspiciatis porro vel. Dolor dolorum tenetur repellat culpa ad, consequuntur accusantium possimus maiores repellendus harum ut iure, nemo autem.</p>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit at culpa laudantium sunt odit repudiandae qui deleniti cum ipsum, sint eius amet! Reiciendis praesentium aut, reprehenderit autem assumenda ratione soluta quam dolor tempore iusto pariatur dolore? Asperiores dicta quis nulla magni doloremque libero beatae nihil impedit hic, repellat repudiandae quae quasi atque culpa provident laudantium aut vitae ea fugiat quas, suscipit placeat voluptatem temporibus! Nemo eveniet placeat repudiandae maiores unde cupiditate nobis commodi, illo quod pariatur vitae ratione consequatur iure quis perspiciatis porro vel. Dolor dolorum tenetur repellat culpa ad, consequuntur accusantium possimus maiores repellendus harum ut iure, nemo autem.</p>
+
+{% endblock %}
+
+
+
