@@ -6,20 +6,19 @@
 
 {% block body %}
 
-    <h1 class="text-center my-5">Détails de l'article</h1>
+    {# <h1 class="text-center my-5">Détails de l'article</h1> #}
+
+    {# cet objet 'article' ne sort pas de null part, c'est ce que le controller a transmit au template, c'est à dire les informations d'1 article selectionné en BDD en fonction de l'ID transmit dans l'URL #}
+    {# {{ dump(article) }} #}
 
     <div class="col-md-12">
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
             <div class="col p-4 d-flex flex-column position-static">
                 <strong class="d-inline-block mb-2 text-primary">World</strong>
-                <h3 class="mb-0">Featured post</h3>
-                <div class="mb-1 text-muted">Nov 12</div>
+                <h3 class="mb-0">{{ article.titre }}</h3>
+                <div class="mb-1 text-muted">Publié le {{ article.date|date('d/m/Y') }} à {{ article.date|date('H:i:s') }}</div>
 
-                <p class="card-text mb-auto">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus autem officiis beatae, nostrum odit adipisci, suscipit ipsa et odio vero quidem recusandae. Reiciendis quos velit dolorum, molestiae corrupti dicta hic suscipit facilis, cupiditate adipisci consectetur odio commodi officia quisquam deleniti architecto natus voluptatibus ipsam et aliquam. Autem officia ad et aperiam maxime odio placeat delectus consequuntur</p>
-
-                <p class="card-text mb-auto">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus autem officiis beatae, nostrum odit adipisci, suscipit ipsa et odio vero quidem recusandae. Reiciendis quos velit dolorum, molestiae corrupti dicta hic suscipit facilis, cupiditate adipisci consectetur odio commodi officia quisquam deleniti architecto natus voluptatibus ipsam et aliquam. Autem officia ad et aperiam maxime odio placeat delectus consequuntur</p>
-
-                <p class="card-text mb-auto">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus autem officiis beatae, nostrum odit adipisci, suscipit ipsa et odio vero quidem recusandae. Reiciendis quos velit dolorum, molestiae corrupti dicta hic suscipit facilis, cupiditate adipisci consectetur odio commodi officia quisquam deleniti architecto natus voluptatibus ipsam et aliquam. Autem officia ad et aperiam maxime odio placeat delectus consequuntur</p>
+                <p class="card-text mb-auto">{{ article.contenu|striptags }}</p>
 
                 <p class="mt-3">
                     <a href="#" class="btn btn-dark">Modifier</a>
@@ -28,7 +27,7 @@
             </div>
             <div class="col-auto d-none d-lg-block">
 
-                <img src="https://picsum.photos/id/239/300/600" alt="">
+                <img src="{{ article.photo }}" alt="">
 
             </div>
         </div>
