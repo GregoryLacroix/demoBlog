@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Blog Symfony | Nouvel article
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center my-5">Nouvel article</h1>
+
+    {# 1ère version du formulaire #}
+    {# <form method="post">
+        <div class="mb-3">
+            <label for="titre" class="form-label">Titre</label>
+            <input type="text" class="form-control" id="titre" name="titre">
+        </div>
+        <div class="mb-3">
+            <label for="contenu" class="form-label">Contenu</label>
+            <textarea type="text" class="form-control" id="contenu" rows="10" name="contenu"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="photo" class="form-label">Photo</label>
+            <input type="text" class="form-control" id="photo" name="photo">
+        </div>
+        <button type="submit" class="btn btn-dark mb-5">Enregistrer</button>
+    </form> #}
+
+    {# 2ème version du formulaire #}
+    {# formArticle ne sort pas de null, c'est le résultat du createView(), c'est ce que le controller a transmit au template, il contient tout les champs du formulaire #}
+    {# form_start(), form_end() : fonction twig permettant de mettre en forme et d'afficher le formulaire #}
+
+    {# <form method="post"> #}
+    {{ form_start(formArticle) }}
+
+        {{ form_row(formArticle.titre) }}
+
+        {{ form_row(formArticle.contenu) }}
+
+        {{ form_row(formArticle.photo) }}
+
+        <button type="submit" class="btn btn-dark mb-5">Enregistrer</button>
+
+    {{ form_end(formArticle) }}
+    
+{% endblock %}

@@ -8,59 +8,42 @@
 
     <div class="row mb-2">
 
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary">World</strong>
-                    <h3 class="mb-0">Featured post</h3>
-                    <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+        {# cet objet 'articles' ne sort pas de null part, c'est ce que le controller a transmit au template, c'est à dire l'ensemble des articles selectionnés en BDD #}
 
-                    <a href="{{ path('blog_show') }}" class="stretched-link">Lire la suite</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
+        {% for data in articles %}
 
-                    <img src="https://picsum.photos/id/237/200/250" alt="">
+            {# 'data' ne sort pas de null part, c'est une variable de réception que nous définissons dans la boucle FOR qui receptionne 1 article par tour de boucle FOR #}
+            {# {{ dump(data) }} #}
+            
+            <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
 
-                </div>
-            </div>
-        </div>
+                        <strong class="d-inline-block mb-2 text-primary">World</strong>
 
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary">World</strong>
-                    <h3 class="mb-0">Featured post</h3>
-                    <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                        <h3 class="mb-0">{{ data.titre }}</h3>
 
-                    <a href="{{ path('blog_show') }}" class="stretched-link">Lire la suite</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
+                        {# Pour la date, ce que retourne la BDD est un objet issu de la classe DateTime, donc on ne pas convertir un objet en une chaine de caractères, pour cela nous devons utiliser la fonction date() de twig #}
+                        <div class="mb-1 text-muted">Publié le {{ data.date|date('d/m/Y') }} à {{ data.date|date('H:i:s') }}</div>
 
-                    <img src="https://picsum.photos/id/238/200/250" alt="">
+                        {# slice(0, 100) : filtre twig qui retourne une partie de la chaine de caractères #}
+                        {# striptags : filtre twig qui supprime les balises html #}
+                        <p class="card-text mb-auto">{{ data.contenu|slice(0, 100)|striptags }}[..]</p>
 
-                </div>
-            </div>
-        </div>
+                        {# On fournit à la route l'id de l'article à transmettre dans l'url #}
+                        {# La route 'blog_show' est une route paramétrée, on doit lui transmettre un id dans l'URL #}
+                        <a href="{{ path('blog_show', {'id': data.id}) }}" class="stretched-link">Lire la suite</a>
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
 
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary">World</strong>
-                    <h3 class="mb-0">Featured post</h3>
-                    <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    
-                    <a href="{{ path('blog_show') }}" class="stretched-link">Lire la suite</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
+                        {# replace(): focntion twig permettant de remplacer un élément dans une chaine de caractères #}
+                        <img src="{{ data.photo|replace({'300/600': '200/250'}) }}" alt="{{ data.titre }}">
 
-                    <img src="https://picsum.photos/id/239/200/250" alt="">
-
+                    </div>
                 </div>
             </div>
-        </div>
+
+        {% endfor %}
 
     </div>
     
