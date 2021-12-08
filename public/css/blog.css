@@ -4,6 +4,10 @@
     min-height: 150vh !important;
 }
 
+.card-blog {
+    height: 350px;
+}
+
 .blog-header {
     line-height: 1;
     border-bottom: 1px solid #e5e5e5;
