@@ -28,7 +28,7 @@
     <div class="col-md-12">
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
             <div class="col-{{ col }} p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 text-primary">World</strong>
+                <strong class="d-inline-block mb-2 text-primary">{{ article.category.titre }}</strong>
                 <h3 class="mb-0">{{ article.titre }}</h3>
                 <div class="mb-1 text-muted">Publié le {{ article.date|date('d/m/Y') }} à {{ article.date|date('H:i:s') }}</div>
 
@@ -51,6 +51,64 @@
 
             {% endif %}
         </div>
+
+        <h2 class="mt-4">Donner votre avis</h2>
+
+        {% if app.user %}
+
+            {{ form_start(formComment) }}
+
+                {{ form_widget(formComment) }}
+
+                <button class="btn btn-dark">Poster</button>
+
+            {{ form_end(formComment) }}
+            
+        {% else %}
+
+            <p class="text-secondary"><a href="{{ path('app_register') }}" class="link-secondary">Créer votre compte</a> ou <a href="{{ path('app_login') }}" class="link-secondary">Identifiez-vous</a> afin de pouvoir poster un avis.</p>
+            
+        {% endif %}
+
+        {# 
+            Exo : Réaliser un formulaire permettant d'insérer des nouveaux commentaires en BDD
+            1. Créer le formulaire à partir de l'entité Comment (make:form)
+            2. Dans le controller, il faut importer et créer le formulaire (createForm)
+            3. Afficher le formulaire sur le template (form_start() / form_row())
+            4. A la validation du formulaire, executer la requete d'insertion (persist()/ flush())
+            5. Après l'insertion, rediriger l'internaute et afficher un message de validation (addFlash)
+            6. Faites en sorte d'afficher 'soyez le premier à poster un commentaire' si aucun commentaire n'est assoxié à l'article
+        #}
+
+        <h2 class="mt-4">Derniers avis...</h2>
+
+        {# article.comments est un ensemble de résultats qui contient tous les commentaires liés à l'article stockés en BDD #}
+        {# En selectionnant l'article en BDD, nous avons automatiquement accès à toute les correspondances dans les autres tables SQL (relation bi-directionnelle) #}
+        {# comment est une variable qui receptionne 1 ligne de commentaire par tour de boucle FOR #}
+        {# Si article.comments N'EST PAS VIDE, cela veut dire qu'il y a des commentaires postés, on entre dans le IF #}
+        {% if article.comments is not empty %}
+            
+            {% for comment in article.comments %}
+                
+                {# {{ dump(comment) }} #}
+
+                <div class="d-flex justify-content-between shadow-sm border rounded p-2 mb-3">
+                    <div class="col-4">
+                    Publié par <strong>{{ comment.auteur }}</strong> <small>(le {{ comment.date|date('d/m/Y') }} à {{ comment.date|date('H:i:s') }})</small>
+                    </div>
+                    <div class="col-7">
+                    {{ comment.commentaire|raw }}
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+            {# Sinon aucun commentaire posté, on entre dans le ELSE #}
+            <p class="fst-italic mb-5">Soyez le premier à donner votre avis...</p>
+
+        {% endif %}
+
     </div>
     
 {% endblock %}

@@ -51,24 +51,38 @@
             <header class="blog-header py-3">
                 <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-4 pt-1">
-                    <a class="link-secondary" href="#">Créer votre compte</a>
+                    {# Si app.user retourne TRUE, cela veut dire que 1 internaute est authentifié, on entre dans le IF #}
+                    {% if app.user %}
+                        <span class="text-secondary">Bonjour</span> <a class="link-secondary" href="" title="Accès à votre compte"><strong>{{ app.user.prenom }} {{ app.user.nom }}</strong></a>
+                    {% else %}
+                        <a class="link-secondary" href="{{ path('app_register') }}">Créer votre compte</a>
+                    {% endif %}
+                    
                 </div>
                 <div class="col-4 text-center">
                     {# path() : fonction TWIG permettant de générer une route, une adresse en fonction du nom de la route définit dans le controller #[Route('/', name:'home')] #}
-                    <a class="blog-header-logo text-dark" href="{{ path('home') }}">Blog Music Symfony</a>
+                    <a class="blog-header-logo text-dark" href="{{ path('home') }}">Blog Musical Symfony</a>
                 </div>
                 <div class="col-4 d-flex justify-content-end align-items-center">
                     <a class="link-secondary" href="#" aria-label="Search">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Rechercher</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
                     </a>
-                    <a class="btn btn-sm btn-outline-secondary" href="#">Identifiez-vous</a>
+
+                    {% if app.user %}
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_logout') }}">Deconnexion</a>
+                    {% else %}
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_login') }}">Identifiez-vous</a>
+                    {% endif %}
                 </div>
                 </div>
             </header>
 
             <div class="nav-scroller py-1 mb-2">
                 <nav class="nav d-flex justify-content-between">
-                    <a class="p-2 link-secondary" href="{{ path('blog_create') }}">Nouvel article</a>
+                    {% if app.user %}
+                        <a class="p-2 link-secondary" href="{{ path('blog_create') }}">Nouvel article</a>
+                    {% endif %}
+                    
                     <a class="p-2 link-secondary" href="#">U.S.</a>
                     <a class="p-2 link-secondary" href="#">Technology</a>
                     <a class="p-2 link-secondary" href="#">Design</a>
@@ -97,6 +111,9 @@
 
                 </div>
             </div>
+
+            {# app.user est un objet Twig contenant toute les informations de l'internaute authentifié sur le site dans la session de l'utilisateur #}
+            {{ dump(app.user) }}
 
             {% block body %}
                 
