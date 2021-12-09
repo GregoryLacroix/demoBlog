@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BlogSymfony | Identifiez-vous{% endblock %}
+
+{% block body %}
+
+    {% if error %}
+        <div class="col-4 bg-danger p-3 text-white text-center mx-auto my-3">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
+    <h1 class="text-center my-5">Identifiez-vous</h1>
+
+    <form method="post" class="col-4 mx-auto">
+
+        <label for="inputEmail">Email</label>
+        <input type="text" value="{{ last_username }}" name="email" id="email" class="form-control" autocomplete="email" required autofocus>
+
+        <label for="inputPassword">Password</label>
+        <input type="password" name="password" id="password" class="form-control" autocomplete="current-password" required>
+
+        <input type="hidden" name="_csrf_token"
+            value="{{ csrf_token('authenticate') }}"
+        >
+
+        <button class="btn btn-dark mt-2" type="submit">
+            Continuer
+        </button>
+
+    </form>
+
+{% endblock %}
