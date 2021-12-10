@@ -1,0 +1,29 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    BlogSymfony | Gestion des articles
+{% endblock %}
+
+{% block body %}
+
+    <table class="table table-striped">
+        <tr class="table-success">
+        {# colonnes : objet (BackOfficeController) qui contient tout les noms des champs/colonnes de la table sql Article #}
+        {% for data in colonnes %}
+
+            {# on exclu la colonne 'id' #}
+            {% if data != 'id' %}
+
+                {# capitalize : filtre Twig permettant de mettre la 1ère de la chaine de caractères en majuscule #}
+                <th class="text-center">{{ data|capitalize }}</th>
+                
+            {% endif %}
+
+        {% endfor %}
+            <th>Cat.</th>
+            <th>Nb Comm.</th>
+            <th>Action</th>
+        </tr>
+    </table>
+    
+{% endblock %}

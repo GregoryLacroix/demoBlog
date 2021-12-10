@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    BlogSymfony | Edit Profil
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center my-5">Modification de vos informations personnelle</h1>
+
+    {{ form_start(formUpdate, {'attr': {'class': 'col-7 mx-auto'}}) }}
+
+        {{ form_row(formUpdate.email) }}
+
+        {{ form_row(formUpdate.prenom) }}
+
+        {{ form_row(formUpdate.nom) }}
+
+        {{ form_row(formUpdate.adresse) }}
+
+        {{ form_row(formUpdate.ville) }}
+
+        {{ form_row(formUpdate.codePostal) }}
+
+        <button class="btn btn-dark mb-5">Enregistrer les modifications</button>
+
+    {{ form_end(formUpdate) }}
+    
+{% endblock %}

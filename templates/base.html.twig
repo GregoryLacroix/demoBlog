@@ -53,7 +53,7 @@
                 <div class="col-4 pt-1">
                     {# Si app.user retourne TRUE, cela veut dire que 1 internaute est authentifié, on entre dans le IF #}
                     {% if app.user %}
-                        <span class="text-secondary">Bonjour</span> <a class="link-secondary" href="" title="Accès à votre compte"><strong>{{ app.user.prenom }} {{ app.user.nom }}</strong></a>
+                        <span class="text-secondary">Bonjour</span> <a class="link-secondary" href="{{ path('app_profil') }}" title="Accès à votre compte"><strong>{{ app.user.prenom }} {{ app.user.nom }}</strong></a>
                     {% else %}
                         <a class="link-secondary" href="{{ path('app_register') }}">Créer votre compte</a>
                     {% endif %}
@@ -67,6 +67,11 @@
                     <a class="link-secondary" href="#" aria-label="Search">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Rechercher</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
                     </a>
+
+                    {# is_granted() : fonction Twig qui vérifie si l'utilisateur ici a un ROLE_ADMIN enregistré dans la session donc en BDD #}
+                    {% if is_granted('ROLE_ADMIN') %}   
+                        <a class="btn btn-sm btn-outline-secondary me-2" href="{{ path('app_admin') }}">BACKOFFICE</a>
+                    {% endif %}
 
                     {% if app.user %}
                         <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_logout') }}">Deconnexion</a>
@@ -113,7 +118,7 @@
             </div>
 
             {# app.user est un objet Twig contenant toute les informations de l'internaute authentifié sur le site dans la session de l'utilisateur #}
-            {{ dump(app.user) }}
+            {# {{ dump(app.user) }} #}
 
             {% block body %}
                 
