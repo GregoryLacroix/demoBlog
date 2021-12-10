@@ -22,9 +22,10 @@ security:
             provider: app_user_provider
             custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
+                # on lui fournit la route permettant de se deconnecter, de vider la session
                 path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
+                # on définit la route de redirection après la deconnexion
+                target: app_login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -35,5 +36,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+    # si un utilisateur tente d'accéder à une route mais il n'a pas les droites accorder ci_dessus, ex: un utilisateur ROLE_USER ne peut accéder à la route '/admin' donc on le redirige vers la route '/blog'
+    access_denied_url: blog

@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -13,9 +14,11 @@ class SecurityController extends AbstractController
     #[Route("/login", name:"app_login")]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        // Si getUser() renvoi des données, cela veut que l'internaute est authentifié donc inscrit, il n'a rien à faire sur la route '/login', on le redirige vers la route du blog '/blog'
+        if($this->getUser()) 
+        {
+            return $this->redirectToRoute('blog');
+        }
 
         // renvoie un message d'erreur si jamais nous avons saisi les mauvais identifiants pour la connexion
         $error = $authenticationUtils->getLastAuthenticationError();
