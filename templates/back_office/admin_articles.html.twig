@@ -6,24 +6,73 @@
 
 {% block body %}
 
-    <table class="table table-striped">
-        <tr class="table-success">
-        {# colonnes : objet (BackOfficeController) qui contient tout les noms des champs/colonnes de la table sql Article #}
-        {% for data in colonnes %}
+    {# {{ dump(articles) }} #}
 
-            {# on exclu la colonne 'id' #}
-            {% if data != 'id' %}
+    {# Affichage des messages utilisateurs stockés en session #}
+    {% for message in app.flashes('success') %}
+        <div class="col-6 mx-auto text-center bg-success p-3 text-white mb-3">
+        {{ message }}
+        </div>
+    {% endfor %}
 
-                {# capitalize : filtre Twig permettant de mettre la 1ère de la chaine de caractères en majuscule #}
-                <th class="text-center">{{ data|capitalize }}</th>
+    <table class="table table-striped" id="table-backoffice">
+        <thead>
+            <tr class="table-success">
+            {# colonnes : objet (BackOfficeController) qui contient tout les noms des champs/colonnes de la table sql Article #}
+            {% for data in colonnes %}
+
+                {# on exclu la colonne 'id' #}
+                {% if data != 'id' %}
+
+                    {# capitalize : filtre Twig permettant de mettre la 1ère de la chaine de caractères en majuscule #}
+                    <th class="text-center">{{ data|capitalize }}</th>
+                    
+                {% endif %}
+
+            {% endfor %}
+                <th>Cat.</th>
+                <th>Nb Comm.</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for oneArticle in articles %}
+
+            <tr>
+                <td>
+                    <a href="{{ path('blog_show', {'id': oneArticle.id}) }}" class="link-secondary">
+                        {{ oneArticle.titre }}
+                    </a>
+                </td>
+
+                <td>{{ oneArticle.contenu|striptags|slice(0,100) }}[...]</td>
+
+                {# Si la valeur de la photo en BDD est différente de null, cela veut dire qu'une photo a bien été téléchargée, on entre dans le IF et on affiche l'image #}
+                {% if oneArticle.photo != null %}
+                    <td class="text-center"><img src="{{ asset('uploads/photos/' ~ oneArticle.photo) }}" alt="{{ oneArticle.titre }}" class="img-backoffice"></td>
+                {% else %}
+                    <td class="text-danger text-center">Aucune photo téléchargée</td>
+                {% endif %}
                 
-            {% endif %}
+                <td>{{ oneArticle.date|date('d/m/Y à H:i:s') }}</td>
+                <td class="text-center">{{ oneArticle.category.titre }}</td>
+                <td class="text-center">{{ oneArticle.comments|length }}</td>
 
+                <td class="">
+                    <a href="{{ path('app_admin_article_add') }}" class="btn btn-primary mb-3"><i class="bi bi-plus-square"></i>
+                    </a>
+                    <br>
+                    <a href="{{ path('app_admin_article_update', {'id': oneArticle.id}) }}" class="btn btn-success mb-3"><i class="bi bi-pencil-square"></i>
+                    </a>
+                    <br>
+                    <a href="{{ path('app_admin_article_remove', {'id': oneArticle.id}) }}" class="btn btn-danger" onclick="return(confirm('Voulez-vous réellement supprimer l\'article n° {{ oneArticle.id }}'));">
+                        <i class="bi bi-trash-fill"></i>
+                    </a>
+                </td>
+            </tr>
+            
         {% endfor %}
-            <th>Cat.</th>
-            <th>Nb Comm.</th>
-            <th>Action</th>
-        </tr>
+        </tbody>
     </table>
     
 {% endblock %}

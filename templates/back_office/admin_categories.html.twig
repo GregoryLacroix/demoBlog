@@ -1,0 +1,52 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    BlogSymfony | Lsite des catégories
+{% endblock %}
+
+{% block body %}
+
+    <table class="table table-striped" id="table-category">
+        <thead>
+            <tr class="table-success">
+            {# colonnes : objet (BackOfficeController) qui contient tout les noms des champs/colonnes de la table sql Article #}
+            {% for data in colonnes %}
+
+                {# on exclu la colonne 'id' #}
+                {% if data != 'id' %}
+
+                    {# capitalize : filtre Twig permettant de mettre la 1ère de la chaine de caractères en majuscule #}
+                    <th class="text-center">{{ data|capitalize }}</th>
+                    
+                {% endif %}
+
+            {% endfor %}
+                <th class="text-center">Nb Art.</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for data in allCategory %}
+            
+            <tr>
+                <td>{{ data.titre }}</td>
+                <td>{{ data.description }}</td>
+                <td class="text-center">{{ data.articles|length }}</td>
+                <td>
+                    <a href="" class="btn btn-primary mb-3"><i class="bi bi-plus-square"></i>
+                    </a>
+                    <br>
+                    <a href="" class="btn btn-success mb-3"><i class="bi bi-pencil-square"></i>
+                    </a>
+                    <br>
+                    <a href="" class="btn btn-danger" onclick="return(confirm('Voulez-vous réellement supprimer la catégorie n° {{ data.id }}'));">
+                        <i class="bi bi-trash-fill"></i>
+                    </a>
+                </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+    
+{% endblock %}

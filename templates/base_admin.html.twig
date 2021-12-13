@@ -11,6 +11,17 @@
         {# icone bootstrap #}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
+        {# dataTable #}
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css"> 
+
+        <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+        <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>  
+
+        <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+
+        <script src="{{ asset('js/dataTable.js') }}"></script>
+
         <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -50,7 +61,7 @@
     </head>
     <body>
         <main class="d-flex">
-            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark position-fixed h-100" style="width: 20%;">
+            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark position-fixed h-100" style="width: 15%;">
                 <a href="{{ path('app_admin') }}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <span class="fs-4"><i class="bi bi-bootstrap icone-logo"></i>ACKOFFICE</span>
                 </a>
@@ -62,13 +73,19 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ path('app_admin_article_add') }}" class="nav-link text-white">
+                    <i class="bi bi-plus-square-fill"></i>
+                    Nouvel article
+                    </a>
+                </li>
+                <li>
                     <a href="{{ path('app_admin_articles') }}" class="nav-link text-white">
                     <i class="bi bi-book-fill"></i>
                     Articles
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link text-white">
+                    <a href="{{ path('app_admin_categories') }}" class="nav-link text-white">
                     <i class="bi bi-bookmarks-fill"></i>
                     Catégories
                     </a>
