@@ -1,12 +1,25 @@
 {% extends "base_admin.html.twig" %}
 
 {% block title %}
-    BlogSymfony BO | Nouvel article
+    BlogSymfony BO | 
+
+    {% if editMode %}
+        Modification article
+    {% else %}
+        Nouvel article
+    {% endif %}
+
 {% endblock %}
 
 {% block body %}
 
-    <h1 class="text-center my-5">Création d'un nouvel article</h1>
+    <h1 class="text-center my-5">
+    {% if editMode %}
+        Modification de l'article article
+    {% else %}
+        Création d'un nouvel article
+    {% endif %}
+    </h1>
 
     {{ form_start(formAdminArticle, {'attr': {'class': 'col-7 mx-auto'}}) }}
 
@@ -27,7 +40,13 @@
             
         {% endif %}
 
-        <button class="btn btn-dark">Enregistrer</button>
+        <button class="btn btn-dark">
+        {% if editMode %}
+            Enregistrer les modifications
+        {% else %}
+            Enregistrer
+        {% endif %}
+        </button>
 
     {{ form_end(formAdminArticle) }}
     
