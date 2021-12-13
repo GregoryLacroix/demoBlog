@@ -1,0 +1,34 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    BlogSymfony BO | Nouvel article
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center my-5">Création d'un nouvel article</h1>
+
+    {{ form_start(formAdminArticle, {'attr': {'class': 'col-7 mx-auto'}}) }}
+
+        {{ form_row(formAdminArticle.titre) }}
+
+        {{ form_row(formAdminArticle.category) }}
+
+        {{ form_row(formAdminArticle.contenu) }}
+
+        {{ form_row(formAdminArticle.photo) }}
+
+        {% if photoActuelle != null %}
+
+            <em>Vous pouvez une nouvelle photo si vous souhaitez la modifier</em>
+            <p class="col-3">
+                <img src="{{ asset('uploads/photos/' ~ photoActuelle) }}" alt="" class="col-12 img-responsive">
+            </p>
+            
+        {% endif %}
+
+        <button class="btn btn-dark">Enregistrer</button>
+
+    {{ form_end(formAdminArticle) }}
+    
+{% endblock %}
