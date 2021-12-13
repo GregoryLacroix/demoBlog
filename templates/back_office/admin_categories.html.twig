@@ -1,10 +1,23 @@
 {% extends "base_admin.html.twig" %}
 
 {% block title %}
-    BlogSymfony | Lsite des catégories
+    BlogSymfony | Liste des catégories
 {% endblock %}
 
 {% block body %}
+
+    {# affichage des messages utilisateur #}
+    {% for label, messages in app.flashes(['success', 'danger']) %}
+
+        {% for message in messages %}
+            {# on sert de l'identifiant du message (success, danger) pour les intégrer comme class bootstrap #}
+            {#                                      -success             #}
+            <div class="col-6 mx-auto text-center bg-{{ label }} p-3 text-white mb-3">
+            {{ message }}
+            </div>
+        {% endfor %}
+        
+    {% endfor %}
 
     <table class="table table-striped" id="table-category">
         <thead>
@@ -33,13 +46,13 @@
                 <td>{{ data.description }}</td>
                 <td class="text-center">{{ data.articles|length }}</td>
                 <td>
-                    <a href="" class="btn btn-primary mb-3"><i class="bi bi-plus-square"></i>
+                    <a href="{{ path('app_admin_categorie_add') }}" class="btn btn-primary mb-3"><i class="bi bi-plus-square"></i>
                     </a>
                     <br>
-                    <a href="" class="btn btn-success mb-3"><i class="bi bi-pencil-square"></i>
+                    <a href="{{ path('app_admin_categorie_update', {'id': data.id}) }}" class="btn btn-success mb-3"><i class="bi bi-pencil-square"></i>
                     </a>
                     <br>
-                    <a href="" class="btn btn-danger" onclick="return(confirm('Voulez-vous réellement supprimer la catégorie n° {{ data.id }}'));">
+                    <a href="{{ path('app_admin_categorie_remove', {'id': data.id}) }}" class="btn btn-danger" onclick="return(confirm('Voulez-vous réellement supprimer la catégorie {{ data.titre }}'));">
                         <i class="bi bi-trash-fill"></i>
                     </a>
                 </td>
