@@ -6,6 +6,12 @@
 
 {% block body %}
 
+    {% for message in app.flashes('success') %}
+        <div class="col-6 mx-auto text-center bg-success p-3 text-white mb-3">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <table class="table table-striped" id="table-commentaire">
         <thead>
             <tr class="table-success">
@@ -35,7 +41,7 @@
                 <td><a href="{{ path('blog_show', {'id': data.article.id}) }}" class="link-secondary">{{ data.article.titre }}</a></td>
 
                 <td>
-                    <a href="" class="btn btn-success mb-3"><i class="bi bi-pencil-square"></i>
+                    <a href="{{ path('app_admin_commentaire_update', {'id': data.id}) }}" class="btn btn-success mb-3"><i class="bi bi-pencil-square"></i>
                     </a>
                     <br>
                     <a href="{{ path('app_admin_commentaire_remove', {'id': data.id}) }}" class="btn btn-danger" onclick="return(confirm('Voulez-vous réellement supprimer le commentaire posté par {{ data.auteur }}'));">

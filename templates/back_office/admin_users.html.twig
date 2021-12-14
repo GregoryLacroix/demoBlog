@@ -1,0 +1,87 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    BlogSymfony | liste des utilisateurs
+{% endblock %}
+
+{% block body %}
+
+{# {{ dump(users) }} #}
+
+    {% for message in app.flashes('success') %}
+        <div class="col-6 mx-auto text-center bg-success p-3 text-white mb-3">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <table class="table table-striped text-center" id="table-users">
+        <thead>
+            <tr class="table-success">
+            {# colonnes : objet (BackOfficeController) qui contient tout les noms des champs/colonnes de la table sql User #}
+            {% for data in colonnes %}
+
+                {# on exclu la colonne 'id' #}
+                {% if data != 'id' and data != 'password' %}
+
+                    {# capitalize : filtre Twig permettant de mettre la 1ère de la chaine de caractères en majuscule #}
+                    <th class="text-center">{{ data|capitalize }}</th>
+                    
+                {% endif %}
+
+            {% endfor %}
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for data in users %}
+            
+            <tr>
+                <td>{{ data.email }}</td>
+                <td>
+                {% for role in data.roles %}
+                    {# {{ dump(role) }} #}
+                    {% if role == 'ROLE_ADMIN' %}
+                        ADMINISTRATEUR
+                    {% elseif role == '' %}
+                        USER
+                    {% endif %}
+                {% endfor %}
+                </td>
+                <td>{{ data.prenom }}</td>
+                <td>{{ data.nom }}</td>
+                <td>{{ data.adresse }}</td>
+                <td>{{ data.ville }}</td>
+                <td>{{ data.codePostal }}</td>
+
+                <td>
+                    <a href="{{ path('app_admin_user_update', {'id': data.id}) }}?op=update" class="btn btn-success mb-3"><i class="bi bi-pencil-square"></i>
+                    </a>
+                    <br>
+                    <a href="{{ path('app_admin_user_remove', {'id': data.id}) }}" class="btn btn-danger" onclick="return(confirm('Voulez-vous réellement supprimer l\'utilisateur {{ data.prenom }} {{ data.nom }}'));">
+                        <i class="bi bi-trash-fill"></i>
+                    </a>
+                </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# app.request.query : objet Twig qui renvoi les données de $_GET #}
+    {# {{ dump(app.request.query) }} #}
+    {# Si l'indice 'op' est définit dans l'URL et qu'il a pour valeur 'update', alors on entre dans la condition IF #}
+    {% if app.request.query.get('op') == 'update' %}
+
+        {{ form_start(formUserUpdate, {'attr': {'class': 'col-4 mx-auto'}}) }}
+
+            <h5 class="mt-5">Modification {{ user.prenom }} {{ user.nom }}</h5>
+
+            {{ form_row(formUserUpdate.roles) }}
+
+            <button class="btn btn-dark">Enregistrer</button>
+
+        {{ form_end(formUserUpdate) }}
+
+    {% endif %}
+
+{% endblock %}

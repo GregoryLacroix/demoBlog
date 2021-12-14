@@ -30,7 +30,7 @@ class CommentType extends AbstractType
                 'label' => "Saisir votre commentaire",
                 'required' => false,
                 'attr' => [
-                    'rows' => 5
+                    'rows' => 12
                 ],
                 'constraints' => [
                     new NotBlank([

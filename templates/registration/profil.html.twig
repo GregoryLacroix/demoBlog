@@ -94,5 +94,43 @@
             </div>
         </div>
     </div>
+
+    <h4 class="text-center my-5">Vos articles</h4>
+
+    {% if user.article is not empty %}
+    
+        <table class="table table-borderless mb-5" id="table-profil">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th class="text-center">Catégorie</th>
+                    <th class="text-center">Date publication</th>
+                    <th class="text-center">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for data in user.article %}
+                <tr>
+                    <td>
+                        <a href="{{ path('blog_show', {'id': data.id}) }}" class="link-secondary">{{ data.titre }}</a>
+                    </td>
+                    <td class="text-center">
+                        <a href="{{ path('blog_categorie', {'id': data.category.id}) }}" class="link-secondary">{{ data.category.titre }}</a>
+                    </td>
+                    <td class="text-center">{{ data.date|date('d/m/Y à H:i:s') }}</td>
+                    <td class="text-center">
+                        <a href="{{ path('blog_edit', {'id': data.id}) }}" class="text-dark"><i class="bi bi-pencil-square"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+
+        <p class="text-secondary fst-italic text-center">Vous n'avez encore posté aucun article</p>    
+
+    {% endif %}
     
 {% endblock %}

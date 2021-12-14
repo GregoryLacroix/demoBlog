@@ -25,4 +25,22 @@ $(document).ready(function() {
             { 'bSortable': false, 'aTargets': [ 0,3,4 ] }
         ]
     });
+
+    $('#table-users').DataTable({
+        language: {
+            url: '/js/dataTables.french.json'
+        },
+        "aoColumnDefs": [
+            { 'bSortable': false, 'aTargets': [ 7 ] }
+        ]
+    });
+
+    $('#table-profil').DataTable({
+        language: {
+            url: '/js/dataTables.french.json'
+        },
+        "aoColumnDefs": [
+            { 'bSortable': false, 'aTargets': [ 3 ] }
+        ]
+    });
 });

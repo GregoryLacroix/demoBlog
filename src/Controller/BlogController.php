@@ -144,6 +144,8 @@ class BlogController extends AbstractController
         // handleRequest() permet d'envoyer chaque données de $_POST et de les transmettre aux bon setter de l'objet entité $article
         $formArticle->handleRequest($request);
 
+        // dd($this->getUser());
+
         // Si le formulaire a bien été validé (isSubmitted) et que l'objet entité est correctement remplit (isValid) alors on entre dans le condition IF
         if($formArticle->isSubmitted() && $formArticle->isValid())
         {
@@ -152,6 +154,11 @@ class BlogController extends AbstractController
             // Si l'article ne possède pas d'id, c'est une insertion, alors on entre dans la condition IF et on génère une date d'article
             if(!$article->getId())
                 $article->setDate(new \DateTime());
+
+            // On relie l'article publié à l'utilisateur en BDD 
+            // On relie la clé étrnagère dans la BDD
+            // setUser() attend en argument l'objet App\Entity\User 
+            $article->setUser($this->getUser());
 
             // DEBUT TRAITEMENT PHOTO
             // On récupère toute les informations de l'image uplodé dans le formulaire

@@ -32,7 +32,15 @@
                         <h3 class="mb-0">{{ data.titre }}</h3>
 
                         {# Pour la date, ce que retourne la BDD est un objet issu de la classe DateTime, donc on ne pas convertir un objet en une chaine de caractères, pour cela nous devons utiliser la fonction date() de twig #}
-                        <div class="mb-1 text-muted">Publié le {{ data.date|date('d/m/Y') }} à {{ data.date|date('H:i:s') }}</div>
+                        <div class="mb-1 text-muted">
+                        Publié  
+                        
+                        {% if data.user is not empty %}
+                            par <strong>{{ data.user.prenom }} {{ data.user.nom }}</strong>
+                        {% endif %}
+                        
+                        le {{ data.date|date('d/m/Y') }} à {{ data.date|date('H:i:s') }}
+                        </div>
 
                         {# slice(0, 100) : filtre twig qui retourne une partie de la chaine de caractères #}
                         {# striptags : filtre twig qui supprime les balises html #}
